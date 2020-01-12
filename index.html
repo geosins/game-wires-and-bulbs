@@ -1,0 +1,261 @@
+<html>
+<head>
+<style>
+.field {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	fontSize: 20px;
+	lineHeight: 20px;
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid;
+	transition: 1s;
+}
+</style>
+</head>
+<body>
+</body>
+<script>
+
+class View {
+	constructor(fields, onClick) {
+		this.fields = fields;
+		this.onClick = onClick;
+		this.initFieldsView();
+		this.updateStyles();
+	}
+	
+	initFieldsView() {
+		this.fieldsView = this.fields.map((column, x) => column.map((field, y) => {
+			const element = document.createElement('div');
+			element.className = 'field';
+			element.innerHTML = field ? field.shape : '';
+			element.addEventListener('click', () => {
+				this.onClick(x, y);
+				this.updateStyles();
+			});
+			return element;
+		}))
+	}
+	
+	updateStyles() {
+		this.fields.forEach((column, x) => column.forEach((field, y) => {
+			if (field) {
+				const fieldView = this.fieldsView[x][y].style;
+				fieldView.color = field.isActive ? 'red' : 'black';
+				fieldView.transform = `rotate(${field.rotation}deg)`;
+			};
+		}))
+	}
+	
+	render() {
+		const body = document.body;
+		body.innerHTML = '';
+			
+		for (let y = 0; y < this.fieldsView[0].length; y++) {
+			for (let x = 0; x < this.fieldsView.length; x++) {
+				body.appendChild(this.fieldsView[x][y])
+			}
+			body.appendChild(document.createElement('br'))
+		}
+	}
+}
+
+class Fields {
+	constructor() {
+		this.initSignalCoords = {x:0, y:0};
+		this.initSignalDirection = Direction.Right
+		
+		this.onClick = this.onClick.bind(this);
+	}
+	
+	init(n, m) {
+		this.fields = new Array(n).fill(null);
+		this.fields = this.fields.map(_ => new Array(m).fill(null));
+		
+		for (let i = 0; i < n; i++) {
+			for (let j = 0; j < m; j++) {
+				this.fields[i][j] = this.createField();
+			}
+		}
+		
+		this.fields[0][0] = null;
+	}
+	
+	onClick(x, y) {
+		this.reset();
+		console.log(this.fields);
+		console.log(this.fields[x][y]);
+		this.fields[x][y].rotate();
+		this.start();
+	}
+	
+	reset() {
+		this.fields.forEach(column => column.forEach(field => field && field.reset()));
+	}
+	
+	start() {
+		const params = this.getAdjacentField(this.initSignalCoords, this.initSignalDirection)
+		this.receiveSignal(params, params.direction);
+	}
+	
+	receiveSignal(coords/*:{x: number, y: number}*/, direction) {
+		console.log(coords)
+		const currentField = this.fields[coords.x] && this.fields[coords.x][coords.y];
+		if (currentField) {
+			const nextSignals = currentField.receiveSignal(direction);
+			console.log('signals: ', nextSignals);
+			nextSignals.forEach(signal => {
+				const params = this.getAdjacentField(coords, signal);
+				console.log('params: ', params);
+				this.receiveSignal(params, params.direction);
+			})
+		}
+	}
+	
+	getAdjacentField(coords, direction) {
+		switch(direction) {
+			case Direction.Up:
+				return {x: coords.x, y: coords.y-1, direction: Direction.Down};
+			case Direction.Down:
+				return {x: coords.x, y: coords.y+1, direction: Direction.Up};
+			case Direction.Left:
+				return {x: coords.x-1, y: coords.y, direction: Direction.Right};
+			case Direction.Right:
+				return {x: coords.x+1, y: coords.y, direction: Direction.Left};
+		}
+	}
+	
+	createField() {
+		const rotate = this.getRandomItem([0, 90, 180, 270]);
+		const shape = this.getRandomItem(Shape);
+		return new Field(rotate, shape);
+	}
+	
+	getRandomItem(obj) {
+		const values = Object.values(obj);
+
+		const min = 0;
+		const max = values.length - 1;
+		const randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
+
+		return values[randomInt];
+	}
+	
+}
+
+class Field {
+	constructor(rotation, shape) {
+		this.rotation = rotation;
+		this.shape = shape;
+	}
+	
+	rotate() {
+		this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
+	}
+	
+	reset() {
+		this.isActive = false;
+	}
+	
+	receiveSignal(direction) {
+		if (this.isActive) {
+			return [];
+		}
+		
+		const contacts = this.getContacts();
+		if (contacts.includes(direction)) {
+			this.isActive = true;
+			return contacts.filter(item => item != direction);
+		} else {
+			return [];
+		}
+	}
+	
+	getContacts() {
+		switch(this.shape) {
+			case Shape.Line:
+				return this.getLineContacts();
+			case Shape.Angle:
+				return this.getAngleContacts();
+			case Shape.Tack:
+				return this.getTackContacts();
+			case Shape.Cross:
+				return this.getCrossContacts();
+		}
+	}
+	
+	getLineContacts() {
+		switch(this.rotation) {
+			case 0:
+			case 180:
+				return [Direction.Up, Direction.Down];
+			case 90:
+			case 270:
+				return [Direction.Left, Direction.Right];
+		}
+	}
+	
+	getAngleContacts() {
+		switch(this.rotation) {
+			case 0:
+				return [Direction.Up, Direction.Right];
+			case 90:
+				return [Direction.Down, Direction.Right];
+			case 180:
+				return [Direction.Left, Direction.Down];
+			case 270:
+				return [Direction.Left, Direction.Up];
+		}
+	}
+	
+	getTackContacts() {
+		switch(this.rotation) {
+			case 0:
+				return [Direction.Left, Direction.Right, Direction.Down];
+			case 90:
+				return [Direction.Down, Direction.Up, Direction.Left];
+			case 180:
+				return [Direction.Left, Direction.Right, Direction.Up];
+			case 270:
+				return [Direction.Down, Direction.Up, Direction.Right];
+		}
+	}
+	
+	getCrossContacts() {
+		return [Direction.Up, Direction.Down, Direction.Left, Direction.Right];
+	}	
+}
+
+const Direction = {
+	Up: 'up',
+	Down: 'down',
+	Left: 'left',
+	Right: 'right'
+}
+
+const Shape = {
+	Line: '|',
+	Angle: '∟',
+	Cross: '+',
+	Tack: '⊤'
+}
+
+class Game {
+	constructor() {
+		this.fields = new Fields();
+		this.fields.init(10, 10);
+	}
+	
+	start() {
+		this.fields.start();
+		this.view = new View(this.fields.fields, this.fields.onClick);
+		this.view.render();
+	}
+}
+
+const game = new Game();
+game.start()
+</script>
+</html>
