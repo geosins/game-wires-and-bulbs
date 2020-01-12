@@ -1,5 +1,5 @@
 export class Utils {
-    static getRandomItem<T>(obj: T[]|{[key: string]: T}): T {
+    public static getRandomItem<T>(obj: T[]|{[key: string]: T}): T {
         const values = Object.values(obj);
 
         const min = 0;
@@ -9,7 +9,7 @@ export class Utils {
         return values[randomInt];
     }
 
-    static createMatrix(m, n): null[][] {
+    public static createMatrix(m, n): null[][] {
         return new Array(n).fill(null).map(_ => new Array(m).fill(null));
     }
 }

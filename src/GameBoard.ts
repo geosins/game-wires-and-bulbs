@@ -45,8 +45,8 @@ export class GameBoard {
     }
 
     private receiveSignal({ direction, ...coords }: Signal): void {
-        const currentSquare = this.squares[coords.x] && this.squares[coords.x][coords.y];
-        if (currentSquare) {
+        if (this.isSquareExist(coords.x, coords.y)) {
+            const currentSquare = this.squares[coords.x][coords.y];
             const nextSignalsDirections = currentSquare.receiveSignal(direction);
             nextSignalsDirections.forEach(nextSignalDirection => {
                 const nextSignal = this.getAdjacentSignal({ ...coords, direction: nextSignalDirection });
@@ -72,5 +72,9 @@ export class GameBoard {
         const rotate = Utils.getRandomItem([0, 90, 180, 270]);
         const shape = Utils.getRandomItem(Shape);
         return new Square(rotate, shape);
+    }
+
+    private isSquareExist(x: number, y: number): boolean {
+        return !!(this.squares[x] && this.squares[x][y]);
     }
 }
