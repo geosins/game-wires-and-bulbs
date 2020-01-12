@@ -1,13 +1,13 @@
-const Direction = {
-    Up: 'up',
-    Down: 'down',
-    Left: 'left',
-    Right: 'right'
-};
+export enum Direction {
+    Up = 'up',
+    Down = 'down',
+    Left = 'left',
+    Right = 'right'
+}
 
-const Shape = {
-    Line: '|',
-    Angle: '∟',
-    Cross: '+',
-    Tack: '⊤'
-};
+export enum Shape {
+    Line = '|',
+    Angle = '∟',
+    Cross = '+',
+    Tack = '⊤'
+}

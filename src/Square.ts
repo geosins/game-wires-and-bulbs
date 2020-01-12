@@ -1,18 +1,24 @@
-class Square {
+import { Direction, Shape } from './enums';
+
+export class Square {
+    public rotation: number;
+    public shape: Shape;
+    public isActive: boolean = false;
+
     constructor(rotation, shape) {
         this.rotation = rotation;
         this.shape = shape;
     }
 
-    rotate() {
+    public rotate(): void {
         this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
     }
 
-    reset() {
+    public reset(): void {
         this.isActive = false;
     }
 
-    receiveSignal(direction) {
+    public receiveSignal(direction: Direction): Direction[] {
         if (this.isActive) {
             return [];
         }
@@ -26,7 +32,7 @@ class Square {
         }
     }
 
-    getContacts() {
+    protected getContacts(): Direction[] {
         switch(this.shape) {
             case Shape.Line:
                 return this.getLineContacts();
@@ -39,7 +45,7 @@ class Square {
         }
     }
 
-    getLineContacts() {
+    private getLineContacts(): Direction[] {
         switch(this.rotation) {
             case 0:
             case 180:
@@ -50,7 +56,7 @@ class Square {
         }
     }
 
-    getAngleContacts() {
+    private getAngleContacts(): Direction[] {
         switch(this.rotation) {
             case 0:
                 return [Direction.Up, Direction.Right];
@@ -63,7 +69,7 @@ class Square {
         }
     }
 
-    getTackContacts() {
+    private getTackContacts(): Direction[] {
         switch(this.rotation) {
             case 0:
                 return [Direction.Left, Direction.Right, Direction.Down];
@@ -76,7 +82,7 @@ class Square {
         }
     }
 
-    getCrossContacts() {
+    private getCrossContacts(): Direction[] {
         return [Direction.Up, Direction.Down, Direction.Left, Direction.Right];
     }
 }
