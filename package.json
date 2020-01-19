@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.html",
   "scripts": {
+    "build": "node fuse",
+    "build:dev": "ENV=dev node fuse",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "geosins",
