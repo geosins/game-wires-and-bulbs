@@ -1,4 +1,8 @@
 import { Game } from './Game';
 
-const game = new Game();
-game.start();
+try {
+    const game = new Game();
+    game.start();
+} catch (e) {
+    alert(e.message);
+}
