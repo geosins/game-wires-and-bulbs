@@ -1,4 +1,4 @@
-import { Direction, Shape } from './enums';
+import { Direction, Shape } from '../enums';
 
 export class Square {
     public rotation: number;

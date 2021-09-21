@@ -1,26 +1,20 @@
-import { GameBoardFactory } from './GameBoardFactory';
 import { GameBoard } from './GameBoard';
-import { View } from './View';
 
 export class Game {
     public isWin: boolean;
+    public levelNumber = 1;
 
     private board: GameBoard;
-    private view: View;
 
     constructor() {
-        this.onEndOfTurn = this.onEndOfTurn.bind(this);
-
-        this.board = GameBoardFactory.getGameBoard(this.onEndOfTurn);
+        this.board = new GameBoard(this.levelNumber, this.onEndOfTurn.bind(this));
     }
 
     public start(): void {
-        this.board.start();
-        this.view = new View(this.board.squares, this.board.onClick);
-        this.view.render();
+        this.board.render();
     }
 
     private onEndOfTurn(): void {
-        this.isWin = this.board.isAllReceiversActive();
+        this.isWin = this.board.isAllReceiversActive;
     }
 }

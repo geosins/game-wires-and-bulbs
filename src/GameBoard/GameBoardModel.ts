@@ -1,4 +1,4 @@
-import { Direction, Shape } from './enums';
+import { Direction, Shape } from '../enums';
 import { Square } from './Square';
 
 interface Coords {
@@ -10,28 +10,27 @@ interface Signal extends Coords {
     direction: Direction;
 }
 
-export class GameBoard {
-    public readonly squares: Square[][];
-
-    private onEndOfTurn: () => void;
-
+export class GameBoardModel {
+    private readonly squares: Square[][];
     private transmitterSignals: Signal[] = [];
     private receiverCoords: Coords[] = [];
 
-    constructor(squares: Square[][], onEndOfTurn: () => void) {
+    constructor(squares: Square[][]) {
         this.onClick = this.onClick.bind(this);
 
         this.squares = squares;
-        this.onEndOfTurn = onEndOfTurn;
 
         this.init();
     }
 
-    public onClick(x, y): void {
+    public get isAllReceiversActive(): boolean {
+        return this.receiverCoords.every(({ x, y }) => this.squares[x][y].isActive)
+    }
+
+    public onClick(x: number, y: number): void {
         this.reset();
         this.squares[x][y].rotate();
         this.start();
-        this.onEndOfTurn();
     }
 
     public reset(): void {
@@ -40,10 +39,6 @@ export class GameBoard {
 
     public start(): void {
         this.transmitterSignals.forEach(this.receiveSignal, this);
-    }
-
-    public isAllReceiversActive(): boolean {
-        return this.receiverCoords.every(({ x, y }) => this.squares[x][y].isActive)
     }
 
     private receiveSignal({ direction, ...coords }: Signal): void {

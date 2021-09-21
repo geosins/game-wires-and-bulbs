@@ -1,6 +1,8 @@
 import { Square } from './Square';
 
-export class View {
+export class GameBoardView {
+    private className = 'game-board';
+
     private squares: Square[][];
     private squaresView: HTMLElement[][];
 
@@ -12,7 +14,7 @@ export class View {
     }
 
     public render(): void {
-        const gameBoard = document.getElementsByClassName('game-board')[0];
+        const gameBoard = document.getElementsByClassName(this.className)[0];
         gameBoard.innerHTML = '';
 
         for (let y = 0; y < this.squaresView[0].length; y++) {
