@@ -12,14 +12,14 @@ export class View {
     }
 
     public render(): void {
-        const body = document.body;
-        body.innerHTML = '';
+        const gameBoard = document.getElementsByClassName('game-board')[0];
+        gameBoard.innerHTML = '';
 
         for (let y = 0; y < this.squaresView[0].length; y++) {
             for (let x = 0; x < this.squaresView.length; x++) {
-                body.appendChild(this.squaresView[x][y])
+                gameBoard.appendChild(this.squaresView[x][y])
             }
-            body.appendChild(document.createElement('br'))
+            gameBoard.appendChild(document.createElement('br'))
         }
     }
 
