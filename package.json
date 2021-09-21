@@ -5,13 +5,16 @@
   "main": "index.html",
   "scripts": {
     "build": "node fuse",
-    "build:dev": "ENV=dev node fuse",
+    "build:dev": "cross-env ENV=dev node fuse",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "geosins",
   "license": "MIT",
   "dependencies": {
     "fuse-box": "^3.7.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.10"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
