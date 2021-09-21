@@ -9,7 +9,7 @@ export class Utils {
         return values[randomInt];
     }
 
-    public static createMatrix(m, n): null[][] {
+    public static createMatrix(m: number, n: number): any[][] {
         return new Array(n).fill(null).map(_ => new Array(m).fill(null));
     }
 }
