@@ -1,9 +1,12 @@
 import { Direction, Shape } from './enums';
 import { Square } from './Square';
 
-interface Signal {
+interface Coords {
     x: number;
     y: number;
+}
+
+interface Signal extends Coords {
     direction: Direction;
 }
 
@@ -11,11 +14,14 @@ export class GameBoard {
     public readonly squares: Square[][];
 
     private transmitterSignals: Signal[] = [];
+    private receiverCoords: Coords[] = [];
 
     constructor(squares: Square[][]) {
         this.onClick = this.onClick.bind(this);
 
         this.squares = squares;
+
+        this.init();
     }
 
     public onClick(x, y): void {
@@ -29,8 +35,11 @@ export class GameBoard {
     }
 
     public start(): void {
-        const transmitterSignals = this.getTransmitterSignals();
-        transmitterSignals.forEach(this.receiveSignal, this);
+        this.transmitterSignals.forEach(this.receiveSignal, this);
+    }
+
+    public isAllReceiversActive(): boolean {
+        return this.receiverCoords.every(({ x, y }) => this.squares[x][y].isActive)
     }
 
     private receiveSignal({ direction, ...coords }: Signal): void {
@@ -61,22 +70,23 @@ export class GameBoard {
         return !!(this.squares[x] && this.squares[x][y]);
     }
 
-    private getTransmitterSignals() {
-        if (!this.transmitterSignals.length) {
-            for (let x = 0; x < this.squares.length; x++) {
-                for (let y = 0; y < this.squares[0].length; y++) {
-                    if (this.squares[x][y].shape === Shape.Transmitter) {
-                        this.transmitterSignals.push(
-                            this.getAdjacentSignal({ x, y, direction: Direction.Up }),
-                            this.getAdjacentSignal({ x, y, direction: Direction.Down }),
-                            this.getAdjacentSignal({ x, y, direction: Direction.Left }),
-                            this.getAdjacentSignal({ x, y, direction: Direction.Right }),
-                        )
-                    }
+    private init() {
+        for (let x = 0; x < this.squares.length; x++) {
+            for (let y = 0; y < this.squares[0].length; y++) {
+                if (this.squares[x][y].shape === Shape.Receiver) {
+                    this.receiverCoords.push({ x, y })
+                }
+
+                if (this.squares[x][y].shape === Shape.Transmitter) {
+                    this.transmitterSignals.push(
+                        this.getAdjacentSignal({ x, y, direction: Direction.Up }),
+                        this.getAdjacentSignal({ x, y, direction: Direction.Down }),
+                        this.getAdjacentSignal({ x, y, direction: Direction.Left }),
+                        this.getAdjacentSignal({ x, y, direction: Direction.Right }),
+                    )
                 }
             }
         }
-
-        return this.transmitterSignals;
     }
+
 }
