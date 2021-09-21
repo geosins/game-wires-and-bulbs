@@ -3,11 +3,12 @@ import { Direction, Shape } from './enums';
 export class Square {
     public rotation: number;
     public shape: Shape;
-    public isActive: boolean = false;
+    public isActive: boolean;
 
     constructor(rotation, shape) {
         this.rotation = rotation;
         this.shape = shape;
+        this.isActive= this.getDefaultResetStatus();
     }
 
     public rotate(): void {
@@ -15,7 +16,7 @@ export class Square {
     }
 
     public reset(): void {
-        this.isActive = false;
+        this.isActive = this.getDefaultResetStatus();
     }
 
     public receiveSignal(direction: Direction): Direction[] {
@@ -24,7 +25,7 @@ export class Square {
         }
 
         const contacts = this.getContacts();
-        if (contacts.includes(direction)) {
+        if (contacts.includes(direction) || this.shape === Shape.Receiver) {
             this.isActive = true;
             return contacts.filter(item => item != direction);
         } else {
@@ -33,6 +34,7 @@ export class Square {
     }
 
     protected getContacts(): Direction[] {
+
         switch(this.shape) {
             case Shape.Line:
                 return this.getLineContacts();
@@ -42,7 +44,20 @@ export class Square {
                 return this.getTackContacts();
             case Shape.Cross:
                 return this.getCrossContacts();
+            case Shape.Wall:
+                return this.getWallContacts();
+            case Shape.Receiver:
+                return this.getReceiverContacts();
+            case Shape.Transmitter:
+                return this.getTransmitterContacts();
+            default:
+                const shape: never = this.shape;
+                throw new Error(`Expected unknown shape: ${shape}`);
         }
+    }
+
+    private getDefaultResetStatus(): boolean {
+        return this.shape === Shape.Transmitter;
     }
 
     private getLineContacts(): Direction[] {
@@ -84,5 +99,17 @@ export class Square {
 
     private getCrossContacts(): Direction[] {
         return [Direction.Up, Direction.Down, Direction.Left, Direction.Right];
+    }
+
+    private getWallContacts() {
+        return [];
+    }
+
+    private getReceiverContacts() {
+        return [];
+    }
+
+    private getTransmitterContacts() {
+        return [];
     }
 }

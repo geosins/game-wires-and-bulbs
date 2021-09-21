@@ -6,8 +6,11 @@ export enum Direction {
 }
 
 export enum Shape {
-    Line = '|',
-    Angle = '∟',
-    Cross = '+',
-    Tack = '⊤'
+    Line = '┃',
+    Angle = '┗',
+    Cross = '╋',
+    Tack = '┳',
+    Wall = '▢',
+    Transmitter = '●',
+    Receiver = '◎'
 }

@@ -11,7 +11,7 @@ interface Signal {
 export class GameBoard {
     public squares: Square[][];
 
-    private initSignal: Signal = { x:0, y:0, direction: Direction.Right };
+    private transmitterSignals: Signal[] = [];
 
     constructor() {
         this.onClick = this.onClick.bind(this);
@@ -25,8 +25,6 @@ export class GameBoard {
                 this.squares[x][y] = this.createSquare();
             }
         }
-
-        this.squares[0][0] = null;
     }
 
     public onClick(x, y): void {
@@ -40,8 +38,8 @@ export class GameBoard {
     }
 
     public start(): void {
-        const signal = this.getAdjacentSignal(this.initSignal);
-        this.receiveSignal(signal);
+        const transmitterSignals = this.getTransmitterSignals();
+        transmitterSignals.forEach(this.receiveSignal, this);
     }
 
     private receiveSignal({ direction, ...coords }: Signal): void {
@@ -76,5 +74,24 @@ export class GameBoard {
 
     private isSquareExist(x: number, y: number): boolean {
         return !!(this.squares[x] && this.squares[x][y]);
+    }
+
+    private getTransmitterSignals() {
+        if (!this.transmitterSignals.length) {
+            for (let x = 0; x < this.squares.length; x++) {
+                for (let y = 0; y < this.squares[0].length; y++) {
+                    if (this.squares[x][y].shape === Shape.Transmitter) {
+                        this.transmitterSignals.push(
+                            this.getAdjacentSignal({ x, y, direction: Direction.Up }),
+                            this.getAdjacentSignal({ x, y, direction: Direction.Down }),
+                            this.getAdjacentSignal({ x, y, direction: Direction.Left }),
+                            this.getAdjacentSignal({ x, y, direction: Direction.Right }),
+                        )
+                    }
+                }
+            }
+        }
+
+        return this.transmitterSignals;
     }
 }
