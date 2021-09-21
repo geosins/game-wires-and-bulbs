@@ -13,13 +13,16 @@ interface Signal extends Coords {
 export class GameBoard {
     public readonly squares: Square[][];
 
+    private onEndOfTurn: () => void;
+
     private transmitterSignals: Signal[] = [];
     private receiverCoords: Coords[] = [];
 
-    constructor(squares: Square[][]) {
+    constructor(squares: Square[][], onEndOfTurn: () => void) {
         this.onClick = this.onClick.bind(this);
 
         this.squares = squares;
+        this.onEndOfTurn = onEndOfTurn;
 
         this.init();
     }
@@ -28,6 +31,7 @@ export class GameBoard {
         this.reset();
         this.squares[x][y].rotate();
         this.start();
+        this.onEndOfTurn();
     }
 
     public reset(): void {

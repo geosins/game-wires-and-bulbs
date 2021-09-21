@@ -4,9 +4,9 @@ import { levels } from './levels';
 import { GameBoard } from './GameBoard';
 
 export class GameBoardFactory {
-    public static getGameBoard(levelNumber?: number): GameBoard {
+    public static getGameBoard(onEndOfTurn: () => void, levelNumber?: number): GameBoard {
         const squares = this.getSquares(levelNumber);
-        return new GameBoard(squares);
+        return new GameBoard(squares, onEndOfTurn);
     }
 
     protected static getSquares(levelNumber?: number): Square[][] {
