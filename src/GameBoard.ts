@@ -1,5 +1,4 @@
 import { Direction, Shape } from './enums';
-import { Utils } from './Utils';
 import { Square } from './Square';
 
 interface Signal {
@@ -9,22 +8,14 @@ interface Signal {
 }
 
 export class GameBoard {
-    public squares: Square[][];
+    public readonly squares: Square[][];
 
     private transmitterSignals: Signal[] = [];
 
-    constructor() {
+    constructor(squares: Square[][]) {
         this.onClick = this.onClick.bind(this);
-    }
 
-    public init(m: number, n: number): void {
-        this.squares = Utils.createMatrix(m, n);
-
-        for (let x = 0; x < m; x++) {
-            for (let y = 0; y < n; y++) {
-                this.squares[x][y] = this.createSquare();
-            }
-        }
+        this.squares = squares;
     }
 
     public onClick(x, y): void {
@@ -64,12 +55,6 @@ export class GameBoard {
             case Direction.Right:
                 return {x: signal.x+1, y: signal.y, direction: Direction.Left};
         }
-    }
-
-    private createSquare(): Square {
-        const rotate = Utils.getRandomItem([0, 90, 180, 270]);
-        const shape = Utils.getRandomItem(Shape);
-        return new Square(rotate, shape);
     }
 
     private isSquareExist(x: number, y: number): boolean {

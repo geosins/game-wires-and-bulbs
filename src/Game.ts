@@ -1,3 +1,4 @@
+import { GameBoardFactory } from './GameBoardFactory';
 import { GameBoard } from './GameBoard';
 import { View } from './View';
 
@@ -6,8 +7,7 @@ export class Game {
     private view: View;
 
     constructor() {
-        this.board = new GameBoard();
-        this.board.init(10, 10);
+        this.board = GameBoardFactory.getGameBoard();
     }
 
     public start(): void {
