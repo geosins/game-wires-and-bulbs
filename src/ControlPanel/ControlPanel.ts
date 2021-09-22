@@ -1,4 +1,6 @@
-import { Utils } from './Utils';
+import './ControlPanel.scss';
+
+import { Utils } from '../Utils';
 
 interface Params {
     message: string;

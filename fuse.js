@@ -1,3 +1,4 @@
+const path = require("path");
 const { fusebox } = require("fuse-box");
 
 class Builder {
@@ -5,11 +6,11 @@ class Builder {
         const env = process.env.ENV;
         const isDev = env === 'dev';
 
-        const builder = new Builder();
+        const builder = new Builder(isDev);
         await builder.start(isDev);
     }
 
-    constructor() {
+    constructor(isDev) {
         this.fuse = fusebox({
             entry: "src/index.ts",
             target: 'browser',
@@ -19,12 +20,14 @@ class Builder {
             webIndex: {
                 template: 'src/index.html',
             },
+            devServer: isDev,
         });
 
         this.outputProps = {
             bundles: {
                 distRoot: 'public',
-                app: 'script.js',
+                app: 'script.$hash.js',
+                styles: 'styles.$hash.css',
             },
         }
     }

@@ -1,3 +1,5 @@
+import './GameBoard.scss';
+
 import { Utils } from '../Utils';
 import { levels } from '../levels';
 
