@@ -10,10 +10,11 @@
   "author": "geosins",
   "license": "MIT",
   "dependencies": {
-    "fuse-box": "^3.7.1",
+    "fuse-box": "4.0.0",
     "typescript": "^3.9.10"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "node-sass": "^6.0.1"
   }
 }

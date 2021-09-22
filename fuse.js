@@ -1,54 +1,40 @@
-const { FuseBox } = require("fuse-box");
-const sparky = require("fuse-box/sparky");
+const { fusebox } = require("fuse-box");
 
 class Builder {
     static async go() {
         const env = process.env.ENV;
+        const isDev = env === 'dev';
 
         const builder = new Builder();
-        await builder.prepare();
-
-        const watch = env === 'dev';
-        await builder.start({watch});
+        await builder.start(isDev);
     }
 
     constructor() {
-        this.fuse = FuseBox.init({
-            homeDir: "src",
-            output: "public/$name.js",
-            tsConfig: "./tsconfig.json",
+        this.fuse = fusebox({
+            entry: "src/index.ts",
+            target: 'browser',
+            compilerOptions: {
+                tsConfig: "./tsconfig.json",
+            },
+            webIndex: {
+                template: 'src/index.html',
+            },
         });
 
-        this.app = this.fuse.bundle("script").instructions(`> index.ts`);
-    }
-
-    async prepare() {
-        await this.cleanDir();
-        await this.copyHtml();
-    }
-
-    async start({ watch } = {}) {
-        if (watch) {
-            this.app.watch();
-            await sparky.watch('./index.html', { base: './src'})
-                .dest('./public')
-                .exec();
+        this.outputProps = {
+            bundles: {
+                distRoot: 'public',
+                app: 'script.js',
+            },
         }
-
-        await this.fuse.run();
     }
 
-    async cleanDir() {
-        await sparky.src('./')
-            .clean('./public/')
-            .exec();
+    async start(isDev) {
+        return isDev
+            ? this.fuse.runDev(this.outputProps)
+            : this.fuse.runProd(this.outputProps);
     }
 
-    async copyHtml() {
-        await sparky.src('./index.html', { base: './src'})
-            .dest('./public')
-            .exec();
-    }
 }
 
 Builder.go();
