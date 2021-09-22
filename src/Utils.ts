@@ -1,6 +1,6 @@
 export class Utils {
-    public static getRandomItem<T>(obj: T[]|{[key: string]: T}): T {
-        const values = Object.values(obj);
+    public static getRandomItem<T>(data: T[] | {[key: string]: T}): T {
+        const values = Object.values(data);
 
         const min = 0;
         const max = values.length - 1;
@@ -11,5 +11,15 @@ export class Utils {
 
     public static createMatrix(m: number, n: number): any[][] {
         return new Array(n).fill(null).map(_ => new Array(m).fill(null));
+    }
+
+    public static createElement(tag: string, className: string, children: HTMLElement[] = [], text = ''): HTMLElement {
+        const element = document.createElement(tag);
+
+        element.classList.add(className);
+        element.innerText = text;
+        children.forEach(child => element.appendChild(child));
+
+        return element;
     }
 }
