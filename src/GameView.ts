@@ -25,11 +25,17 @@ export class GameView {
     public render(): HTMLElement {
         const { root, title, controlPanel, gameBoard } = this.elements;
 
+        root.innerHTML = '';
+
         root.appendChild(title);
         root.appendChild(gameBoard);
         root.appendChild(controlPanel);
 
         return root;
+    }
+
+    public updateGameBoard(gameBoard: GameBoard): void {
+        this.elements.gameBoard = gameBoard.render();
     }
 
     private initElements(params: Params) {

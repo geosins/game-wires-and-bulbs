@@ -1,6 +1,7 @@
 import { GameBoard } from './GameBoard';
 import { ControlPanel } from './ControlPanel';
 import { GameView } from './GameView';
+import { levels } from './levels';
 
 export class Game {
     public levelNumber = 0;
@@ -20,8 +21,9 @@ export class Game {
     }
 
     protected onEndOfTurn(): void {
-        const isWin = this.board.isAllReceiversActive;
-        this.controlPanel.setMessage(isWin ? 'Вы выиграли' : '');
+        if (this.board.isAllReceiversActive) {
+            this.onWin()
+        }
     }
 
     protected onResetButtonClick(): void {
@@ -30,7 +32,23 @@ export class Game {
     }
 
     protected onNextButtonClick(): void {
-        this.board.reset();
+        this.levelNumber++;
+
+        this.controlPanel.setMessage('');
+        this.controlPanel.setNextButtonActiveStatus(false);
+
+        this.board = new GameBoard(this.levelNumber, this.onEndOfTurn);
+        this.view.updateGameBoard(this.board);
+        this.view.render();
+    }
+
+    protected onWin() {
+        if (this.levelNumber < levels.length - 1) {
+            this.controlPanel.setMessage('Вы выиграли. Желаете продолжить?');
+            this.controlPanel.setNextButtonActiveStatus(true);
+        } else {
+            this.controlPanel.setMessage('Вы выиграли!');
+        }
     }
 
     private bindFunctions(): void {
