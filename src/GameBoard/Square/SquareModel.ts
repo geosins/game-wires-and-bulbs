@@ -32,7 +32,7 @@ export class SquareModel {
         }
 
         const contacts = this.getContacts();
-        if (contacts.includes(direction) || this.shape === Shape.Receiver) {
+        if (contacts.includes(direction) || this.shape === Shape.Bulb) {
             this.isActive = true;
             return contacts.filter(item => item != direction);
         } else {
@@ -53,9 +53,9 @@ export class SquareModel {
                 return this.getCrossContacts();
             case Shape.Wall:
                 return this.getWallContacts();
-            case Shape.Receiver:
+            case Shape.Bulb:
                 return this.getReceiverContacts();
-            case Shape.Transmitter:
+            case Shape.Rosette:
                 return this.getTransmitterContacts();
             default:
                 const shape: never = this.shape;
@@ -64,7 +64,7 @@ export class SquareModel {
     }
 
     private getDefaultResetStatus(): boolean {
-        return this.shape === Shape.Transmitter;
+        return this.shape === Shape.Rosette;
     }
 
     private getLineContacts(): Direction[] {

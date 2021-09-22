@@ -5,8 +5,8 @@ const L = Shape.Angle;
 const X = Shape.Cross;
 const T = Shape.Tack;
 const W = Shape.Wall;
-const O = Shape.Transmitter;
-const o = Shape.Receiver;
+const O = Shape.Rosette;
+const o = Shape.Bulb;
 
 type Level = Shape[][];
 

@@ -11,6 +11,6 @@ export enum Shape {
     Cross = '╋',
     Tack = '┳',
     Wall = '▢',
-    Transmitter = '●',
-    Receiver = '◎'
+    Rosette = '●',
+    Bulb = '◎'
 }

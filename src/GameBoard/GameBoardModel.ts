@@ -12,8 +12,8 @@ interface Signal extends Coords {
 
 export class GameBoardModel {
     private readonly squares: Square[][];
-    private transmitterSignals: Signal[] = [];
-    private receiverCoords: Coords[] = [];
+    private rosetteSignals: Signal[] = [];
+    private bulbCoords: Coords[] = [];
 
     constructor(squares: Square[][]) {
         this.onClick = this.onClick.bind(this);
@@ -24,7 +24,7 @@ export class GameBoardModel {
     }
 
     public get isAllReceiversActive(): boolean {
-        return this.receiverCoords.every(({ x, y }) => this.squares[x][y].isActive)
+        return this.bulbCoords.every(({ x, y }) => this.squares[x][y].isActive)
     }
 
     public onClick(x: number, y: number): void {
@@ -38,7 +38,7 @@ export class GameBoardModel {
     }
 
     public start(): void {
-        this.transmitterSignals.forEach(this.receiveSignal, this);
+        this.rosetteSignals.forEach(this.receiveSignal, this);
     }
 
     private receiveSignal({ direction, ...coords }: Signal): void {
@@ -72,12 +72,12 @@ export class GameBoardModel {
     private init() {
         for (let x = 0; x < this.squares.length; x++) {
             for (let y = 0; y < this.squares[0].length; y++) {
-                if (this.squares[x][y].shape === Shape.Receiver) {
-                    this.receiverCoords.push({ x, y })
+                if (this.squares[x][y].shape === Shape.Bulb) {
+                    this.bulbCoords.push({ x, y })
                 }
 
-                if (this.squares[x][y].shape === Shape.Transmitter) {
-                    this.transmitterSignals.push(
+                if (this.squares[x][y].shape === Shape.Rosette) {
+                    this.rosetteSignals.push(
                         this.getAdjacentSignal({ x, y, direction: Direction.Up }),
                         this.getAdjacentSignal({ x, y, direction: Direction.Down }),
                         this.getAdjacentSignal({ x, y, direction: Direction.Left }),
