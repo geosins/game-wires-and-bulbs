@@ -24,9 +24,9 @@ export class GameBoard {
         return this.model.isAllReceiversActive;
     }
 
-    public render() {
+    public render(): HTMLElement {
         this.model.start();
-        this.view.render();
+        return this.view.render();
     }
 
     private onSquareClick(x: number, y: number): void {

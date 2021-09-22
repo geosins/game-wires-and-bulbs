@@ -2,7 +2,9 @@ import { Game } from './Game';
 
 try {
     const game = new Game();
-    game.start();
+    const element = game.render();
+    document.body.appendChild(element);
 } catch (e) {
     alert(e.message);
+    throw e;
 }

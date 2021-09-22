@@ -1,4 +1,5 @@
 import { Shape } from '../../enums';
+import { Utils } from '../../Utils';
 
 interface Params {
     rotation: number;
@@ -12,11 +13,7 @@ export class SquareView {
     };
 
     private elements = {
-        root: document.createElement('div'),
-    }
-
-    constructor() {
-        this.elements.root.classList.add(this.classNames.root);
+        root: Utils.createElement('div', this.classNames.root),
     }
 
     public render(params: Params) {

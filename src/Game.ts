@@ -1,20 +1,27 @@
 import { GameBoard } from './GameBoard';
+import { GameView } from './GameView';
 
 export class Game {
-    public isWin: boolean;
     public levelNumber = 1;
 
     private board: GameBoard;
 
+    private view: GameView;
+
     constructor() {
         this.board = new GameBoard(this.levelNumber, this.onEndOfTurn.bind(this));
+        this.view = new GameView({
+            gameBoard: this.board,
+            message: '',
+        });
     }
 
-    public start(): void {
-        this.board.render();
+    public render(): HTMLElement {
+        return this.view.render();
     }
 
     private onEndOfTurn(): void {
-        this.isWin = this.board.isAllReceiversActive;
+        const isWin = this.board.isAllReceiversActive;
+        this.view.updateMessage(isWin ? 'Вы выиграли' : '');
     }
 }
