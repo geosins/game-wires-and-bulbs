@@ -5,6 +5,7 @@ import { Utils } from './Utils';
 interface Params {
     gameBoard: GameBoard;
     controlPanel: ControlPanel;
+    title: string;
 }
 
 const ROOT_CLASS_NAME = 'game';
@@ -38,10 +39,14 @@ export class GameView {
         this.elements.gameBoard = gameBoard.render();
     }
 
+    public setTitle(title: string): void {
+        this.elements.title.innerText = title;
+    }
+
     private initElements(params: Params) {
         this.elements = {
             root: Utils.createElement('div', this.classNames.root),
-            title: Utils.createElement('h2', this.classNames.title, [], 'Игра'),
+            title: Utils.createElement('h2', this.classNames.title, [], params.title),
             controlPanel: Utils.createElement('div', this.classNames.controlPanel, [params.controlPanel.render()]),
             gameBoard: params.gameBoard.render(),
         }
