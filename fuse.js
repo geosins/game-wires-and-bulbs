@@ -1,5 +1,5 @@
 const { FuseBox } = require("fuse-box");
-const { src } = require("fuse-box/sparky");
+const sparky = require("fuse-box/sparky");
 
 class Builder {
     static async go() {
@@ -30,19 +30,22 @@ class Builder {
     async start({ watch } = {}) {
         if (watch) {
             this.app.watch();
+            await sparky.watch('./index.html', { base: './src'})
+                .dest('./public')
+                .exec();
         }
 
         await this.fuse.run();
     }
 
     async cleanDir() {
-        await src('./')
+        await sparky.src('./')
             .clean('./public/')
             .exec();
     }
 
     async copyHtml() {
-        await src('./index.html', { base: './src'})
+        await sparky.src('./index.html', { base: './src'})
             .dest('./public')
             .exec();
     }
