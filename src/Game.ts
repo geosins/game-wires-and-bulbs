@@ -35,7 +35,7 @@ export class Game {
         this.levelNumber++;
 
         this.controlPanel.setMessage('');
-        this.view.setTitle(`Игра. Уровень ${this.levelNumber + 1}.`)
+        this.view.setTitle(`Провода и лампочки. Уровень ${this.levelNumber + 1}.`)
         this.controlPanel.setNextButtonActiveStatus(false);
 
         this.board = new GameBoard(this.levelNumber, this.onEndOfTurn);
@@ -69,7 +69,7 @@ export class Game {
         this.view = new GameView({
             gameBoard: this.board,
             controlPanel: this.controlPanel,
-            title: `Игра. Уровень ${this.levelNumber + 1}.`,
+            title: `Провода и лампочки. Уровень ${this.levelNumber + 1}.`,
         });
     }
 
