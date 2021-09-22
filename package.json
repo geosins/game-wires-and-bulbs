@@ -1,12 +1,11 @@
 {
-  "name": "game",
+  "name": "game-wires-and-bulbs",
   "version": "0.3.0",
   "description": "",
-  "main": "index.html",
+  "main": "public/index.html",
   "scripts": {
     "build": "node fuse",
-    "build:dev": "cross-env ENV=dev node fuse",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:dev": "cross-env ENV=dev node fuse"
   },
   "author": "geosins",
   "license": "MIT",
