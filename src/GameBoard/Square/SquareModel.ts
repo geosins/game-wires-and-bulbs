@@ -1,14 +1,14 @@
-import { Direction, Shape } from '../enums';
+import { Direction, Shape } from '../../enums';
 
-export class Square {
+export class SquareModel {
     public rotation: number;
     public shape: Shape;
     public isActive: boolean;
 
-    constructor(rotation, shape) {
+    constructor(rotation: number, shape: Shape) {
         this.rotation = rotation;
         this.shape = shape;
-        this.isActive= this.getDefaultResetStatus();
+        this.isActive = this.getDefaultResetStatus();
     }
 
     public rotate(): void {
