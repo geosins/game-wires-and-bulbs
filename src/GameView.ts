@@ -1,9 +1,10 @@
 import { GameBoard } from './GameBoard';
+import { ControlPanel } from './ControlPanel';
 import { Utils } from './Utils';
 
 interface Params {
     gameBoard: GameBoard;
-    message: string;
+    controlPanel: ControlPanel;
 }
 
 const ROOT_CLASS_NAME = 'game';
@@ -12,7 +13,7 @@ export class GameView {
     private classNames = {
         root: ROOT_CLASS_NAME,
         title: `${ROOT_CLASS_NAME}__title`,
-        message: `${ROOT_CLASS_NAME}__message`,
+        controlPanel: `${ROOT_CLASS_NAME}__control-panel`,
     }
 
     private elements;
@@ -22,24 +23,20 @@ export class GameView {
     }
 
     public render(): HTMLElement {
-        const { root, title, message, gameBoard } = this.elements;
+        const { root, title, controlPanel, gameBoard } = this.elements;
 
         root.appendChild(title);
         root.appendChild(gameBoard);
-        root.appendChild(message);
+        root.appendChild(controlPanel);
 
         return root;
-    }
-
-    public updateMessage(message: string) {
-        this.elements.message.innerText = message;
     }
 
     private initElements(params: Params) {
         this.elements = {
             root: Utils.createElement('div', this.classNames.root),
             title: Utils.createElement('h2', this.classNames.title, [], 'Игра'),
-            message: Utils.createElement('h3', this.classNames.message, [], params.message),
+            controlPanel: Utils.createElement('div', this.classNames.controlPanel, [params.controlPanel.render()]),
             gameBoard: params.gameBoard.render(),
         }
     }
