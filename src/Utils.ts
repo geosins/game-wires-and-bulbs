@@ -13,10 +13,15 @@ export class Utils {
         return new Array(n).fill(null).map(_ => new Array(m).fill(null));
     }
 
-    public static createElement(tag: string, className: string, children: HTMLElement[] = [], text = ''): HTMLElement {
+    public static createElement(tag: string, className: string | any[], children: HTMLElement[] = [], text = ''): HTMLElement {
         const element = document.createElement(tag);
 
-        element.classList.add(className);
+        if (Array.isArray(className)) {
+            className.forEach(name => name && element.classList.add(name));
+        } else {
+            element.classList.add(className);
+        }
+
         element.innerText = text;
         children.forEach(child => element.appendChild(child));
 
