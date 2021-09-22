@@ -5,7 +5,10 @@ export class SquareModel {
     public shape: Shape;
     public isActive: boolean;
 
+    protected defaultRotation: number;
+
     constructor(rotation: number, shape: Shape) {
+        this.defaultRotation = rotation;
         this.rotation = rotation;
         this.shape = shape;
         this.isActive = this.getDefaultResetStatus();
@@ -15,8 +18,12 @@ export class SquareModel {
         this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
     }
 
-    public reset(): void {
+    public resetActiveStatus(): void {
         this.isActive = this.getDefaultResetStatus();
+    }
+
+    public resetRotation(): void {
+        this.rotation = this.defaultRotation;
     }
 
     public receiveSignal(direction: Direction): Direction[] {

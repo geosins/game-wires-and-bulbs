@@ -7,6 +7,7 @@ import { GameBoardView } from './GameBoardView';
 
 export class GameBoard {
     private onEndOfTurn: () => void;
+    private squares: Square[][];
 
     private model: GameBoardModel;
     private view: GameBoardView;
@@ -15,9 +16,9 @@ export class GameBoard {
         this.onSquareClick = this.onSquareClick.bind(this);
         this.onEndOfTurn = onEndOfTurn;
 
-        const squares = this.getSquares(levelNumber);
-        this.model = new GameBoardModel(squares);
-        this.view = new GameBoardView(squares, this.onSquareClick);
+        this.squares = this.getSquares(levelNumber);
+        this.model = new GameBoardModel(this.squares);
+        this.view = new GameBoardView(this.squares, this.onSquareClick);
     }
 
     public get isAllReceiversActive(): boolean {
@@ -27,6 +28,12 @@ export class GameBoard {
     public render(): HTMLElement {
         this.model.start();
         return this.view.render();
+    }
+
+    public reset(): void {
+        this.squares.forEach(row => row.forEach(square => square.resetRotation()));
+        this.model.reset();
+        this.model.start();
     }
 
     private onSquareClick(x: number, y: number): void {

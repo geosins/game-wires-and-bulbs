@@ -34,7 +34,7 @@ export class GameBoardModel {
     }
 
     public reset(): void {
-        this.squares.forEach(column => column.forEach(field => field && field.reset()));
+        this.squares.forEach(column => column.forEach(field => field.resetActiveStatus()));
     }
 
     public start(): void {

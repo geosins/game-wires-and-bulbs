@@ -27,8 +27,13 @@ export class Square {
         return this.view.render(this.model);
     }
 
-    public reset(): void {
-        this.model.reset();
+    public resetActiveStatus(): void {
+        this.model.resetActiveStatus();
+        this.view.render(this.model);
+    }
+
+    public resetRotation(): void {
+        this.model.resetRotation();
         this.view.render(this.model);
     }
 
