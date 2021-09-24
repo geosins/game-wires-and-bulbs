@@ -13,12 +13,15 @@ export class GameBoard {
     private view: GameBoardView;
 
     constructor(levelNumber: number, onEndOfTurn: () => void) {
-        this.onSquareClick = this.onSquareClick.bind(this);
         this.onEndOfTurn = onEndOfTurn;
 
         this.squares = this.getSquares(levelNumber);
         this.model = new GameBoardModel(this.squares);
-        this.view = new GameBoardView(this.squares, this.onSquareClick);
+        this.view = new GameBoardView({
+            squares: this.squares,
+            onClick: this.onSquareClick.bind(this),
+            onRotateEnd: this.onRotateEnd.bind(this),
+        });
 
         this.model.start();
     }
@@ -38,7 +41,12 @@ export class GameBoard {
     }
 
     private onSquareClick(x: number, y: number): void {
-        this.model.onClick(x, y);
+        this.squares[x][y].rotate();
+    }
+
+    private onRotateEnd(): void {
+        this.model.reset();
+        this.model.start();
         this.onEndOfTurn();
     }
 

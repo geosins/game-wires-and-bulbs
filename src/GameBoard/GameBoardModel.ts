@@ -16,8 +16,6 @@ export class GameBoardModel {
     private bulbCoords: Coords[] = [];
 
     constructor(squares: Square[][]) {
-        this.onClick = this.onClick.bind(this);
-
         this.squares = squares;
 
         this.init();
@@ -25,12 +23,6 @@ export class GameBoardModel {
 
     public get isAllReceiversActive(): boolean {
         return this.bulbCoords.every(({ x, y }) => this.squares[x][y].isActive)
-    }
-
-    public onClick(x: number, y: number): void {
-        this.reset();
-        this.squares[x][y].rotate();
-        this.start();
     }
 
     public reset(): void {

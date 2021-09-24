@@ -2,6 +2,12 @@ import './GameBoard.scss';
 import { Square } from './Square';
 import { Utils } from '../Utils';
 
+interface Params {
+    squares: Square[][];
+    onClick(x: number, y: number): void;
+    onRotateEnd(): void;
+}
+
 const ROOT_CLASS_NAME = 'game-board';
 
 export class GameBoardView {
@@ -12,9 +18,9 @@ export class GameBoardView {
 
     private elements;
 
-    constructor(squares: Square[][], onClick: (x: number, y: number) => void) {
-        this.initElements(squares);
-        this.addClickHandler(onClick);
+    constructor(params: Params) {
+        this.initElements(params.squares);
+        this.addClickHandler(params);
     }
 
     public render(): HTMLElement {
@@ -48,9 +54,10 @@ export class GameBoardView {
         }))
     }
 
-    private addClickHandler(onClick: (x: number, y: number) => void): void {
+    private addClickHandler(params: Params): void {
         this.elements.squares.forEach((row, x) => row.forEach((square, y) => {
-            square.addEventListener('click', () => onClick(x, y));
+            square.addEventListener('click', () => params.onClick(x, y));
+            square.addEventListener('transitionend', params.onRotateEnd);
         }))
     }
 
