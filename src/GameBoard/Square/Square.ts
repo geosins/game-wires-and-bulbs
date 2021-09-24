@@ -8,7 +8,7 @@ export class Square {
 
     constructor(rotation: number, shape: Shape) {
         this.model = new SquareModel(rotation, shape);
-        this.view = new SquareView();
+        this.view = new SquareView(shape);
     }
 
     public get isActive(): boolean {

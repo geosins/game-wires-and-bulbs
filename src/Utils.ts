@@ -22,7 +22,7 @@ export class Utils {
             element.classList.add(className);
         }
 
-        element.innerText = text;
+        element.innerHTML = text;
         children.forEach(child => element.appendChild(child));
 
         return element;

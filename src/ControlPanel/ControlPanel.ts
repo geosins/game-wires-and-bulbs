@@ -30,8 +30,8 @@ export class ControlPanel {
         const { root, restartButton, nextButton, message } = this.elements;
 
         root.appendChild(restartButton);
-        root.appendChild(message);
         root.appendChild(nextButton);
+        root.appendChild(message);
 
         return root;
     }

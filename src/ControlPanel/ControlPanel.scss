@@ -1,10 +1,18 @@
 .control-panel {
-  display: flex;
-  flex-direction: row;
   margin-top: 10px;
 
-  &__button_hide {
-    display: none;
+  &__button {
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+
+    &_hide {
+      display: none;
+    }
+  }
+
+  &__message {
+    margin-top: 5px;
   }
 
 }
