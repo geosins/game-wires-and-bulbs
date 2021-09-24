@@ -52,7 +52,7 @@ export class GameBoard {
 
         level.forEach((row, y) => row.forEach((shape, x) => {
             const rotate = Utils.getRandomItem([0, 90, 180, 270]);
-            squares[x][y] = new Square(rotate, shape);
+            squares[x][y] = new Square(shape, rotate);
         }));
 
         return squares;

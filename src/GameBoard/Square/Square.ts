@@ -1,4 +1,4 @@
-import { SquareModel } from './SquareModel';
+import { SquareModel, createSquareModel } from './squareModels';
 import { SquareView } from './SquareView';
 import { Direction, Shape } from '../../enums';
 
@@ -6,8 +6,9 @@ export class Square {
     protected model: SquareModel;
     protected view: SquareView;
 
-    constructor(rotation: number, shape: Shape) {
-        this.model = new SquareModel(rotation, shape);
+    constructor(shape: Shape, rotation: number) {
+        this.model = createSquareModel(shape);
+        this.model.init(rotation);
         this.view = new SquareView(shape);
     }
 
