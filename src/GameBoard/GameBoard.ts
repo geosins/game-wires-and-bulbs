@@ -21,6 +21,8 @@ export class GameBoard {
         this.squares = this.getSquares(levelNumber);
         this.model = new GameBoardModel(this.squares);
         this.view = new GameBoardView(this.squares, this.onSquareClick);
+
+        this.model.start();
     }
 
     public get isAllReceiversActive(): boolean {
@@ -28,7 +30,6 @@ export class GameBoard {
     }
 
     public render(): HTMLElement {
-        this.model.start();
         return this.view.render();
     }
 

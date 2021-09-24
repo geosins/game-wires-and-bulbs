@@ -38,7 +38,7 @@ export class Game {
         this.view.setTitle(`Провода и лампочки. Уровень ${this.levelNumber + 1}.`)
         this.controlPanel.setNextButtonActiveStatus(false);
 
-        this.board = new GameBoard(this.levelNumber, this.onEndOfTurn);
+        this.board = this.getNewGameBoard();
         this.view.updateGameBoard(this.board);
         this.view.render();
     }
@@ -59,7 +59,7 @@ export class Game {
     }
 
     private init(): void {
-        this.board = new GameBoard(this.levelNumber, this.onEndOfTurn);
+        this.board = this.getNewGameBoard();
         this.controlPanel = new ControlPanel({
             onNextButtonClick: this.onNextButtonClick,
             onRestartButtonClick: this.onResetButtonClick,
@@ -71,6 +71,18 @@ export class Game {
             controlPanel: this.controlPanel,
             title: `Провода и лампочки. Уровень ${this.levelNumber + 1}.`,
         });
+    }
+
+    private getNewGameBoard(): GameBoard {
+        let isLevelCorrect = false;
+        let board: GameBoard;
+
+        do {
+            board = new GameBoard(this.levelNumber, this.onEndOfTurn);
+            isLevelCorrect = !board.isAllReceiversActive;
+        } while (!isLevelCorrect)
+
+        return board;
     }
 
 }
