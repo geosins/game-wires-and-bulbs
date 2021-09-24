@@ -8,18 +8,24 @@ export class SquareModel {
     protected defaultRotation: number;
 
     constructor(rotation: number, shape: Shape) {
-        this.defaultRotation = rotation;
-        this.rotation = rotation;
         this.shape = shape;
-        this.isActive = this.getDefaultResetStatus();
+        this.defaultRotation = this.isRotatable ? rotation : 0;
+        this.rotation = this.defaultRotation;
+        this.isActive = this.getDefaultActiveStatus();
+    }
+
+    public get isRotatable(): boolean {
+        return ![Shape.Rosette, Shape.Bulb, Shape.Wall].includes(this.shape);
     }
 
     public rotate(): void {
-        this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
+        if (this.isRotatable) {
+            this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
+        }
     }
 
     public resetActiveStatus(): void {
-        this.isActive = this.getDefaultResetStatus();
+        this.isActive = this.getDefaultActiveStatus();
     }
 
     public resetRotation(): void {
@@ -63,7 +69,7 @@ export class SquareModel {
         }
     }
 
-    private getDefaultResetStatus(): boolean {
+    private getDefaultActiveStatus(): boolean {
         return this.shape === Shape.Rosette;
     }
 
