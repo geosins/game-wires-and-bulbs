@@ -15,10 +15,6 @@ export class Square {
         return this.model.isActive;
     }
 
-    public get rotation(): number {
-        return this.model.rotation;
-    }
-
     public get shape(): Shape {
         return this.model.shape;
     }
@@ -29,12 +25,12 @@ export class Square {
 
     public resetActiveStatus(): void {
         this.model.resetActiveStatus();
-        this.view.render(this.model);
+        this.view.setIsActiveStatus(this.model.isActive);
     }
 
     public resetRotation(): void {
         this.model.resetRotation();
-        this.view.render(this.model);
+        this.view.rotateRoot(this.model.rotation);
     }
 
     public rotate(): void {
