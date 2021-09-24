@@ -1,3 +1,4 @@
+import './GameBoard.scss';
 import { Square } from './Square';
 import { Utils } from '../Utils';
 
@@ -21,9 +22,8 @@ export class GameBoardView {
 
         for (let y = 0; y < squares[0].length; y++) {
             for (let x = 0; x < squares.length; x++) {
-                root.appendChild(squares[x][y])
+                root.appendChild(squares[x][y]);
             }
-            root.appendChild(document.createElement('br'))
         }
 
         return root;
@@ -31,9 +31,15 @@ export class GameBoardView {
 
     private initElements(squares: Square[][]): void {
         this.elements = {
-            root: Utils.createElement('div', this.classNames.root),
+            root: this.createRootElement(squares),
             squares: this.createSquareWrappers(squares),
         }
+    }
+
+    private createRootElement(squares: Square[][]): HTMLElement {
+        const element = Utils.createElement('div', this.classNames.root);
+        element.style.grid = `repeat(${squares[0].length}, 50px) / repeat(${squares.length}, 50px)`;
+        return element
     }
 
     private createSquareWrappers(squares: Square[][]): HTMLElement[][] {
