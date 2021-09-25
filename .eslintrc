@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "indent": ["error", 4, { "SwitchCase": 1 }],
+    "@typescript-eslint/indent": ["error", 4],
+    "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    "no-case-declarations": "off",
+    "object-curly-newline": "off",
+    "arrow-parens": "off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "max-len": ["error", 140]
+  }
+}
