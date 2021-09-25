@@ -2,7 +2,7 @@ export enum Direction {
     Up = 'up',
     Down = 'down',
     Left = 'left',
-    Right = 'right'
+    Right = 'right',
 }
 
 export enum Shape {
@@ -12,5 +12,5 @@ export enum Shape {
     Tack = '┳',
     Wall = '▢',
     Rosette = '●',
-    Bulb = '◎'
+    Bulb = '◎',
 }

@@ -18,7 +18,7 @@ export abstract class SquareModel {
 
     public rotate(): void {
         if (this.isRotatable) {
-            this.rotation = this.rotation == 270 ? 0 : this.rotation + 90;
+            this.rotation = this.rotation === 270 ? 0 : this.rotation + 90;
         }
     }
 
@@ -31,17 +31,15 @@ export abstract class SquareModel {
     }
 
     public receiveSignal(direction: Direction): Direction[] {
-        if (this.isActive) {
-            return [];
-        }
+        let res: Direction[] = [];
 
         const contacts = this.getContacts();
-        if (contacts.includes(direction)) {
+        if (!this.isActive && contacts.includes(direction)) {
             this.isActive = true;
-            return contacts.filter(item => item != direction);
-        } else {
-            return [];
+            res = contacts.filter(item => item !== direction);
         }
+
+        return res;
     }
 
     protected getContacts(): Direction[] {

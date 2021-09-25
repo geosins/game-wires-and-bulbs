@@ -1,5 +1,4 @@
-const path = require("path");
-const { fusebox } = require("fuse-box");
+const { fusebox } = require('fuse-box');
 
 class Builder {
     static async go() {
@@ -12,10 +11,10 @@ class Builder {
 
     constructor(isDev) {
         this.fuse = fusebox({
-            entry: "src/index.ts",
+            entry: 'src/index.ts',
             target: 'browser',
             compilerOptions: {
-                tsConfig: "./tsconfig.json",
+                tsConfig: './tsconfig.json',
             },
             webIndex: {
                 template: 'src/index.html',
@@ -29,7 +28,7 @@ class Builder {
                 app: 'script.$hash.js',
                 styles: 'styles.$hash.css',
             },
-        }
+        };
     }
 
     async start(isDev) {
@@ -37,7 +36,6 @@ class Builder {
             ? this.fuse.runDev(this.outputProps)
             : this.fuse.runProd(this.outputProps);
     }
-
 }
 
 Builder.go();

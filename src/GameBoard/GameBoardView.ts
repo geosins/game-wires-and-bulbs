@@ -14,7 +14,7 @@ export class GameBoardView {
     private classNames = {
         root: ROOT_CLASS_NAME,
         square: `${ROOT_CLASS_NAME}__square`,
-    }
+    };
 
     private elements;
 
@@ -39,26 +39,23 @@ export class GameBoardView {
         this.elements = {
             root: this.createRootElement(squares),
             squares: this.createSquareWrappers(squares),
-        }
+        };
     }
 
     private createRootElement(squares: Square[][]): HTMLElement {
         const element = Utils.createElement('div', this.classNames.root);
         element.style.grid = `repeat(${squares[0].length}, 50px) / repeat(${squares.length}, 50px)`;
-        return element
+        return element;
     }
 
     private createSquareWrappers(squares: Square[][]): HTMLElement[][] {
-        return squares.map(row => row.map(square => {
-            return Utils.createElement('div', this.classNames.square, [square.render()]);
-        }))
+        return squares.map(row => row.map(square => Utils.createElement('div', this.classNames.square, [square.render()])));
     }
 
     private addClickHandler(params: Params): void {
         this.elements.squares.forEach((row, x) => row.forEach((square, y) => {
             square.addEventListener('click', () => params.onClick(x, y));
             square.addEventListener('transitionend', params.onRotateEnd);
-        }))
+        }));
     }
-
 }

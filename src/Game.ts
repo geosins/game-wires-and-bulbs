@@ -22,7 +22,7 @@ export class Game {
 
     protected onEndOfTurn(): void {
         if (this.board.isAllReceiversActive) {
-            this.onWin()
+            this.onWin();
         }
     }
 
@@ -32,10 +32,10 @@ export class Game {
     }
 
     protected onNextButtonClick(): void {
-        this.levelNumber++;
+        this.levelNumber += 1;
 
         this.controlPanel.setMessage('');
-        this.view.setTitle(`Провода и лампочки. Уровень ${this.levelNumber + 1}.`)
+        this.view.setTitle(`Провода и лампочки. Уровень ${this.levelNumber + 1}.`);
         this.controlPanel.setNextButtonActiveStatus(false);
 
         this.board = this.getNewGameBoard();
@@ -65,7 +65,7 @@ export class Game {
             onRestartButtonClick: this.onResetButtonClick,
             isNextButtonActive: false,
             message: '',
-        })
+        });
         this.view = new GameView({
             gameBoard: this.board,
             controlPanel: this.controlPanel,
@@ -80,9 +80,8 @@ export class Game {
         do {
             board = new GameBoard(this.levelNumber, this.onEndOfTurn);
             isLevelCorrect = !board.isAllReceiversActive;
-        } while (!isLevelCorrect)
+        } while (!isLevelCorrect);
 
         return board;
     }
-
 }

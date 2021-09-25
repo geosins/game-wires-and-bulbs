@@ -17,7 +17,7 @@ export class ControlPanel {
         button: `${ROOT_CLASS_NAME}__button`,
         buttonHide: `${ROOT_CLASS_NAME}__button_hide`,
         message: `${ROOT_CLASS_NAME}__message`,
-    }
+    };
 
     private elements;
 
@@ -49,7 +49,7 @@ export class ControlPanel {
     }
 
     private initElements(params: Params) {
-        const nextButtonClasses =[
+        const nextButtonClasses = [
             this.classNames.button,
             !params.isNextButtonActive && this.classNames.buttonHide,
         ];
@@ -59,7 +59,7 @@ export class ControlPanel {
             message: Utils.createElement('div', this.classNames.message, [], params.message),
             restartButton: Utils.createElement('button', this.classNames.button, [], 'Играть заново'),
             nextButton: Utils.createElement('button', nextButtonClasses, [], 'Следующий уровень'),
-        }
+        };
     }
 
     private addClickHandler(params: Params): void {
@@ -68,5 +68,4 @@ export class ControlPanel {
         restartButton.addEventListener('click', params.onRestartButtonClick);
         nextButton.addEventListener('click', params.onNextButtonClick);
     }
-
 }

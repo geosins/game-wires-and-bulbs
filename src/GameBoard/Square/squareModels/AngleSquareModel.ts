@@ -5,7 +5,7 @@ export class AngleSquareModel extends SquareModel {
     public shape = Shape.Angle;
 
     protected getContacts(): Direction[] {
-        switch(this.rotation) {
+        switch (this.rotation) {
             case 0:
                 return [Direction.Up, Direction.Right];
             case 90:
@@ -14,6 +14,8 @@ export class AngleSquareModel extends SquareModel {
                 return [Direction.Left, Direction.Down];
             case 270:
                 return [Direction.Left, Direction.Up];
+            default:
+                throw new Error(`Expected unknown rotation: ${this.rotation}`);
         }
     }
 }

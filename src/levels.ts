@@ -12,10 +12,10 @@ type Level = Shape[][];
 
 export const levels: Level[] = [
     [
-        [O,I,I,I,I,o],
+        [O, I, I, I, I, o],
     ],
     [
-        [O,X,W,T,L,L],
-        [L,I,I,L,L,o],
-    ]
+        [O, X, W, T, L, L],
+        [L, I, I, L, L, o],
+    ],
 ];

@@ -6,7 +6,7 @@ export class BulbSquareModel extends SquareModel {
 
     protected isRotatable = false;
 
-    public receiveSignal(direction: Direction): Direction[] {
+    public receiveSignal(): Direction[] {
         this.isActive = true;
         return [];
     }

@@ -5,7 +5,7 @@ export class TackSquareModel extends SquareModel {
     public shape = Shape.Tack;
 
     protected getContacts(): Direction[] {
-        switch(this.rotation) {
+        switch (this.rotation) {
             case 0:
                 return [Direction.Left, Direction.Right, Direction.Down];
             case 90:
@@ -14,6 +14,8 @@ export class TackSquareModel extends SquareModel {
                 return [Direction.Left, Direction.Right, Direction.Up];
             case 270:
                 return [Direction.Down, Direction.Up, Direction.Right];
+            default:
+                throw new Error(`Expected unknown rotation: ${this.rotation}`);
         }
     }
 }

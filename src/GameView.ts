@@ -15,7 +15,7 @@ export class GameView {
         root: ROOT_CLASS_NAME,
         title: `${ROOT_CLASS_NAME}__title`,
         controlPanel: `${ROOT_CLASS_NAME}__control-panel`,
-    }
+    };
 
     private elements;
 
@@ -49,7 +49,6 @@ export class GameView {
             title: Utils.createElement('h2', this.classNames.title, [], params.title),
             controlPanel: Utils.createElement('div', this.classNames.controlPanel, [params.controlPanel.render()]),
             gameBoard: params.gameBoard.render(),
-        }
+        };
     }
-
 }

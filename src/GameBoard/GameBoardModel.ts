@@ -22,11 +22,11 @@ export class GameBoardModel {
     }
 
     public get isAllReceiversActive(): boolean {
-        return this.bulbCoords.every(({ x, y }) => this.squares[x][y].isActive)
+        return this.bulbCoords.every(({ x, y }) => this.squares[x][y].isActive);
     }
 
     public reset(): void {
-        this.squares.forEach(column => column.forEach(field => field.resetActiveStatus()));
+        this.squares.forEach((column) => column.forEach((field) => field.resetActiveStatus()));
     }
 
     public start(): void {
@@ -37,23 +37,26 @@ export class GameBoardModel {
         if (this.isSquareExist(coords.x, coords.y)) {
             const currentSquare = this.squares[coords.x][coords.y];
             const nextSignalsDirections = currentSquare.receiveSignal(direction);
-            nextSignalsDirections.forEach(nextSignalDirection => {
+            nextSignalsDirections.forEach((nextSignalDirection) => {
                 const nextSignal = this.getAdjacentSignal({ ...coords, direction: nextSignalDirection });
                 this.receiveSignal(nextSignal);
-            })
+            });
         }
     }
 
     private getAdjacentSignal(signal: Signal): Signal {
-        switch(signal.direction) {
+        switch (signal.direction) {
             case Direction.Up:
-                return {x: signal.x, y: signal.y-1, direction: Direction.Down};
+                return { x: signal.x, y: signal.y - 1, direction: Direction.Down };
             case Direction.Down:
-                return {x: signal.x, y: signal.y+1, direction: Direction.Up};
+                return { x: signal.x, y: signal.y + 1, direction: Direction.Up };
             case Direction.Left:
-                return {x: signal.x-1, y: signal.y, direction: Direction.Right};
+                return { x: signal.x - 1, y: signal.y, direction: Direction.Right };
             case Direction.Right:
-                return {x: signal.x+1, y: signal.y, direction: Direction.Left};
+                return { x: signal.x + 1, y: signal.y, direction: Direction.Left };
+            default:
+                const other: never = signal.direction;
+                throw new Error(`Expected unknown direction: ${other}`);
         }
     }
 
@@ -65,7 +68,7 @@ export class GameBoardModel {
         for (let x = 0; x < this.squares.length; x++) {
             for (let y = 0; y < this.squares[0].length; y++) {
                 if (this.squares[x][y].shape === Shape.Bulb) {
-                    this.bulbCoords.push({ x, y })
+                    this.bulbCoords.push({ x, y });
                 }
 
                 if (this.squares[x][y].shape === Shape.Rosette) {
@@ -74,10 +77,9 @@ export class GameBoardModel {
                         this.getAdjacentSignal({ x, y, direction: Direction.Down }),
                         this.getAdjacentSignal({ x, y, direction: Direction.Left }),
                         this.getAdjacentSignal({ x, y, direction: Direction.Right }),
-                    )
+                    );
                 }
             }
         }
     }
-
 }
