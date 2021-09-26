@@ -1,5 +1,15 @@
+$black: #222732;
+$red: #FF1744;
+
 .square {
     transition: transform 1s;
     width: 100%;
     cursor: pointer;
+    stroke: $black;
+    fill: $black;
+
+    &_active {
+        stroke: $red;
+        fill: $red;
+    }
 }

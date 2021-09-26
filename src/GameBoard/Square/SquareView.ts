@@ -8,9 +8,12 @@ interface Params {
     shape: Shape;
 }
 
+const ROOT_CLASS_NAME = 'square';
+
 export class SquareView {
     private classNames = {
-        root: 'square',
+        root: ROOT_CLASS_NAME,
+        active: `${ROOT_CLASS_NAME}_active`,
     };
 
     private elements;
@@ -49,8 +52,11 @@ export class SquareView {
     }
 
     public setIsActiveStatus(isActive: boolean): void {
-        this.elements.root.style.stroke = isActive ? 'red' : 'black';
-        this.elements.root.style.fill = isActive ? 'red' : 'black';
+        if (isActive) {
+            this.elements.root.classList.add(this.classNames.active);
+        } else {
+            this.elements.root.classList.remove(this.classNames.active);
+        }
     }
 
     private getImage(shape: Shape): string {
